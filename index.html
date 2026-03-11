@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Grotap Public Reports</title>
+<style>
+  :root {
+    --bg: #0f1117;
+    --card: #1a1d27;
+    --card-hover: #22253a;
+    --border: #2a2d3a;
+    --accent: #6366f1;
+    --accent2: #818cf8;
+    --green: #22c55e;
+    --yellow: #eab308;
+    --red: #ef4444;
+    --orange: #f97316;
+    --cyan: #06b6d4;
+    --pink: #ec4899;
+    --text: #e2e8f0;
+    --muted: #94a3b8;
+    --dim: #64748b;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+
+  /* Header */
+  .page-header {
+    text-align: center;
+    padding: 3rem 2rem 2rem;
+    border-bottom: 1px solid var(--border);
+    background: linear-gradient(180deg, #141620 0%, var(--bg) 100%);
+  }
+  .page-header .logo {
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    color: var(--accent2);
+    margin-bottom: 0.75rem;
+  }
+  .page-header h1 {
+    font-size: 2.5rem;
+    font-weight: 800;
+    background: linear-gradient(135deg, var(--accent), var(--cyan));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 0.5rem;
+  }
+  .page-header .subtitle {
+    color: var(--muted);
+    font-size: 1.05rem;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+  .page-header .report-count {
+    display: inline-block;
+    margin-top: 1rem;
+    padding: 0.35rem 1rem;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    font-size: 0.8rem;
+    color: var(--dim);
+  }
+  .page-header .report-count span {
+    color: var(--accent2);
+    font-weight: 700;
+  }
+  .page-header .public-badge {
+    display: inline-block;
+    margin-top: 0.75rem;
+    padding: 0.3rem 0.85rem;
+    background: rgba(6, 182, 212, 0.12);
+    border: 1px solid rgba(6, 182, 212, 0.3);
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: var(--cyan);
+    margin-left: 0.5rem;
+  }
+
+  /* Container */
+  .container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 2rem;
+  }
+
+  /* Section labels */
+  .section-label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--dim);
+    margin-bottom: 1rem;
+    padding-left: 1.75rem;
+  }
+  .section-label.latest {
+    color: var(--green);
+  }
+
+  /* Report entry */
+  .report-entry {
+    display: block;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.5rem 1.75rem;
+    margin-bottom: 1rem;
+    text-decoration: none;
+    color: inherit;
+    transition: all 0.2s ease;
+    cursor: pointer;
+  }
+  .report-entry:hover {
+    background: var(--card-hover);
+    border-color: var(--accent);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 20px rgba(99, 102, 241, 0.1);
+  }
+  .report-entry.latest-entry {
+    border-color: var(--accent);
+    background: linear-gradient(135deg, var(--card) 0%, #1e2140 100%);
+  }
+  .report-entry.latest-entry:hover {
+    border-color: var(--accent2);
+  }
+
+  .report-entry .entry-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 0.75rem;
+  }
+  .report-entry .entry-date {
+    font-size: 0.8rem;
+    color: var(--dim);
+    font-weight: 500;
+  }
+  .report-entry .entry-badge {
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    padding: 0.2rem 0.6rem;
+    border-radius: 6px;
+    background: rgba(99, 102, 241, 0.15);
+    color: var(--accent2);
+  }
+  .report-entry .entry-badge.new {
+    background: rgba(34, 197, 94, 0.15);
+    color: var(--green);
+  }
+  .report-entry .entry-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 0.5rem;
+  }
+  .report-entry .entry-summary {
+    font-size: 0.9rem;
+    color: var(--muted);
+    line-height: 1.5;
+  }
+  .report-entry .entry-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 1rem;
+    padding-top: 0.75rem;
+    border-top: 1px solid var(--border);
+  }
+  .report-entry .entry-tags {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+  .report-entry .tag {
+    font-size: 0.7rem;
+    padding: 0.15rem 0.5rem;
+    border-radius: 4px;
+    background: rgba(255, 255, 255, 0.05);
+    color: var(--dim);
+  }
+  .report-entry .view-link {
+    font-size: 0.8rem;
+    color: var(--accent2);
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+  }
+  .report-entry .view-link .arrow {
+    transition: transform 0.2s ease;
+  }
+  .report-entry:hover .view-link .arrow {
+    transform: translateX(3px);
+  }
+
+  /* Timeline */
+  .timeline {
+    position: relative;
+    padding-left: 1.5rem;
+  }
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: var(--border);
+    border-radius: 1px;
+  }
+  .timeline .report-entry {
+    position: relative;
+  }
+  .timeline .report-entry::before {
+    content: '';
+    position: absolute;
+    left: -1.5rem;
+    top: 1.75rem;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--border);
+    border: 2px solid var(--bg);
+    transform: translateX(-4px);
+  }
+  .timeline .report-entry.latest-entry::before {
+    background: var(--accent);
+    box-shadow: 0 0 8px rgba(99, 102, 241, 0.4);
+  }
+
+  /* Month dividers */
+  .month-divider {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--dim);
+    padding: 1.5rem 0 0.75rem 0;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+  }
+  .month-divider:first-child {
+    padding-top: 0.5rem;
+  }
+
+  /* Footer */
+  .page-footer {
+    text-align: center;
+    padding: 3rem 2rem;
+    color: var(--dim);
+    font-size: 0.8rem;
+    border-top: 1px solid var(--border);
+    margin-top: 2rem;
+  }
+
+  /* Responsive */
+  @media (max-width: 640px) {
+    .page-header h1 { font-size: 1.75rem; }
+    .container { padding: 1rem; }
+    .report-entry { padding: 1.25rem; }
+    .report-entry .entry-title { font-size: 1.1rem; }
+    .report-entry .entry-footer { flex-direction: column; align-items: flex-start; gap: 0.75rem; }
+  }
+</style>
+</head>
+<body>
+
+<header class="page-header">
+  <div class="logo">Grotap</div>
+  <h1>Grotap Public Reports</h1>
+  <p class="subtitle">Public-facing platform updates, product overviews, and company reports shared with our community.</p>
+  <div>
+    <div class="report-count"><span>1</span> report published</div>
+    <div class="public-badge">Public</div>
+  </div>
+</header>
+
+<div class="container">
+
+  <div class="section-label latest">Latest Report</div>
+
+  <div class="timeline">
+
+    <!-- ============================================== -->
+    <!-- REPORT ENTRIES — Newest on top, oldest below   -->
+    <!--                                                -->
+    <!-- To add a new report:                           -->
+    <!--   1. Copy a report-entry block                 -->
+    <!--   2. Paste it below the month-divider at top   -->
+    <!--   3. Add class="latest-entry" to the new one   -->
+    <!--   4. Remove "latest-entry" from the old one    -->
+    <!--   5. Change old entry badge from "new" to ""   -->
+    <!--   6. Update the report-count in the header     -->
+    <!--   7. Add a new month-divider if new month      -->
+    <!--   8. Reports are NEVER deleted, only appended  -->
+    <!-- ============================================== -->
+
+    <!-- March 2026 -->
+    <div class="month-divider">March 2026</div>
+
+    <a href="public-app-overview.html" class="report-entry latest-entry">
+      <div class="entry-top">
+        <span class="entry-date">March 11, 2026</span>
+        <span class="entry-badge new">Latest</span>
+      </div>
+      <div class="entry-title">Grotap Platform Overview</div>
+      <div class="entry-summary">
+        High-level overview of the Grotap platform — 22 applications across two brand experiences, covering AI-powered operations, tenant management, analytics, knowledge systems, and IoT integrations. Includes platform architecture highlights and the multi-brand strategy.
+      </div>
+      <div class="entry-footer">
+        <div class="entry-tags">
+          <span class="tag">Platform</span>
+          <span class="tag">Overview</span>
+          <span class="tag">Public</span>
+        </div>
+        <span class="view-link">View full report <span class="arrow">&rarr;</span></span>
+      </div>
+    </a>
+
+    <!-- END REPORT ENTRIES — New reports go ABOVE this line -->
+
+  </div>
+
+</div>
+
+<footer class="page-footer">
+  Grotap Public Reports &middot; Reports are published for community transparency and never removed.
+</footer>
+
+</body>
+</html>

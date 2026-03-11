@@ -1,0 +1,713 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Grotap Platform Overview</title>
+<style>
+  :root {
+    --bg: #0f1117;
+    --card: #1a1d27;
+    --border: #2a2d3a;
+    --accent: #6366f1;
+    --accent2: #818cf8;
+    --green: #22c55e;
+    --yellow: #eab308;
+    --red: #ef4444;
+    --orange: #f97316;
+    --cyan: #06b6d4;
+    --pink: #ec4899;
+    --text: #e2e8f0;
+    --muted: #94a3b8;
+    --dim: #64748b;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    padding: 2rem;
+  }
+  .container { max-width: 1200px; margin: 0 auto; }
+
+  /* Header */
+  .report-header {
+    text-align: center;
+    padding: 3rem 2rem;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 3rem;
+  }
+  .report-header h1 {
+    font-size: 2.5rem;
+    font-weight: 800;
+    background: linear-gradient(135deg, var(--accent), var(--cyan));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 0.5rem;
+  }
+  .report-header .subtitle {
+    color: var(--muted);
+    font-size: 1.1rem;
+  }
+  .report-header .date {
+    color: var(--dim);
+    font-size: 0.85rem;
+    margin-top: 0.5rem;
+  }
+  .report-header .public-tag {
+    display: inline-block;
+    margin-top: 0.75rem;
+    padding: 0.3rem 0.85rem;
+    background: rgba(6, 182, 212, 0.12);
+    border: 1px solid rgba(6, 182, 212, 0.3);
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: var(--cyan);
+  }
+
+  /* Back link */
+  .back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    color: var(--accent2);
+    text-decoration: none;
+    font-size: 0.85rem;
+    font-weight: 600;
+    margin-bottom: 2rem;
+    transition: color 0.2s;
+  }
+  .back-link:hover { color: var(--cyan); }
+
+  /* Stats bar */
+  .stats-bar {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 1rem;
+    margin-bottom: 3rem;
+  }
+  .stat-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.25rem;
+    text-align: center;
+  }
+  .stat-card .num {
+    font-size: 2rem;
+    font-weight: 800;
+    color: var(--accent2);
+  }
+  .stat-card .label {
+    font-size: 0.8rem;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  /* Sections */
+  .section {
+    margin-bottom: 3rem;
+  }
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 2px solid var(--border);
+  }
+  .section-header h2 {
+    font-size: 1.5rem;
+    font-weight: 700;
+  }
+  .section-header .section-icon {
+    font-size: 1.5rem;
+  }
+  .section-desc {
+    color: var(--muted);
+    margin-bottom: 1.5rem;
+    font-size: 0.95rem;
+    max-width: 800px;
+  }
+
+  /* App grid */
+  .app-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+  }
+  .app-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.25rem;
+    transition: border-color 0.2s;
+  }
+  .app-card:hover {
+    border-color: rgba(99, 102, 241, 0.4);
+  }
+  .app-card .app-card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 0.6rem;
+  }
+  .app-card .app-name {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 600;
+    font-size: 1rem;
+  }
+  .app-card .app-icon { font-size: 1.3rem; }
+  .app-card .app-desc {
+    color: var(--muted);
+    font-size: 0.85rem;
+    line-height: 1.5;
+  }
+  .app-card .app-meta {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    margin-top: 0.75rem;
+  }
+
+  /* Badges */
+  .badge {
+    display: inline-block;
+    padding: 0.15rem 0.5rem;
+    border-radius: 999px;
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+  }
+  .badge-active { background: rgba(34, 197, 94, 0.15); color: var(--green); border: 1px solid rgba(34, 197, 94, 0.3); }
+  .badge-beta { background: rgba(234, 179, 8, 0.15); color: var(--yellow); border: 1px solid rgba(234, 179, 8, 0.3); }
+  .badge-mobile { background: rgba(6, 182, 212, 0.15); color: var(--cyan); border: 1px solid rgba(6, 182, 212, 0.3); }
+  .badge-free { background: rgba(34, 197, 94, 0.1); color: var(--green); border: 1px solid rgba(34, 197, 94, 0.2); }
+  .badge-paid { background: rgba(249, 115, 22, 0.15); color: var(--orange); border: 1px solid rgba(249, 115, 22, 0.3); }
+  .badge-coming { background: rgba(99, 102, 241, 0.15); color: var(--accent2); border: 1px solid rgba(99, 102, 241, 0.3); }
+
+  .brand-tag {
+    display: inline-block;
+    padding: 0.1rem 0.4rem;
+    border-radius: 4px;
+    font-size: 0.7rem;
+    font-weight: 500;
+    background: rgba(99, 102, 241, 0.1);
+    color: var(--accent2);
+    border: 1px solid rgba(99, 102, 241, 0.2);
+  }
+  .brand-tag.agents {
+    background: rgba(6, 182, 212, 0.1);
+    color: var(--cyan);
+    border-color: rgba(6, 182, 212, 0.2);
+  }
+
+  /* Prose sections */
+  .prose {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.5rem 2rem;
+    margin-bottom: 1.5rem;
+  }
+  .prose h3 {
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin-bottom: 0.75rem;
+    color: var(--accent2);
+  }
+  .prose p {
+    color: var(--muted);
+    margin-bottom: 0.75rem;
+    font-size: 0.92rem;
+  }
+  .prose p:last-child { margin-bottom: 0; }
+  .prose ul {
+    color: var(--muted);
+    margin: 0.5rem 0 0.75rem 1.5rem;
+    font-size: 0.92rem;
+  }
+  .prose li { margin-bottom: 0.3rem; }
+  .prose strong { color: var(--text); }
+
+  /* Relationship diagram */
+  .relationship-box {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+  }
+  .relationship-box h4 {
+    font-size: 0.95rem;
+    color: var(--accent2);
+    margin-bottom: 0.5rem;
+  }
+  .rel-flow {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    padding: 0.5rem 0;
+  }
+  .rel-node {
+    background: rgba(99, 102, 241, 0.1);
+    border: 1px solid rgba(99, 102, 241, 0.3);
+    border-radius: 8px;
+    padding: 0.4rem 0.75rem;
+    font-size: 0.85rem;
+    font-weight: 500;
+    white-space: nowrap;
+  }
+  .rel-arrow { color: var(--dim); font-size: 1.2rem; }
+
+  @media (max-width: 768px) {
+    body { padding: 1rem; }
+    .report-header h1 { font-size: 1.8rem; }
+    .stats-bar { grid-template-columns: repeat(2, 1fr); }
+    .app-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <a href="index.html" class="back-link">&larr; Back to all reports</a>
+
+  <!-- Header -->
+  <div class="report-header">
+    <h1>Grotap Platform Overview</h1>
+    <div class="subtitle">Application Ecosystem &amp; Platform Capabilities</div>
+    <div class="date">Published March 11, 2026 &bull; 22 Applications &bull; 2 Brand Experiences</div>
+    <div class="public-tag">Public Report</div>
+  </div>
+
+  <!-- Stats -->
+  <div class="stats-bar">
+    <div class="stat-card"><div class="num">22</div><div class="label">Applications</div></div>
+    <div class="stat-card"><div class="num">19</div><div class="label">Active</div></div>
+    <div class="stat-card"><div class="num">3</div><div class="label">In Beta</div></div>
+    <div class="stat-card"><div class="num">7</div><div class="label">Mobile-Ready</div></div>
+    <div class="stat-card"><div class="num">2</div><div class="label">Brand Experiences</div></div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 1: AI-POWERED OPERATIONS -->
+  <!-- ============================================================ -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-icon">&#9881;</span>
+      <h2>AI-Powered Operations</h2>
+    </div>
+    <div class="section-desc">
+      Grotap's autonomous AI agent infrastructure enables software engineering tasks to be executed at scale. These tools give teams visibility into the AI workforce and the ability to manage task pipelines.
+    </div>
+
+    <div class="app-grid">
+      <div class="app-card">
+        <div class="app-card-header">
+          <span class="app-name"><span class="app-icon">&#129302;</span> AI Agents</span>
+          <span class="badge badge-active">Active</span>
+        </div>
+        <div class="app-desc">Run AI-powered tasks and view agent execution logs and outputs in real time.</div>
+        <div class="app-meta">
+          <span class="brand-tag agents">grotap-agents</span>
+          <span class="badge badge-free">Free</span>
+        </div>
+      </div>
+
+      <div class="app-card">
+        <div class="app-card-header">
+          <span class="app-name"><span class="app-icon">&#9889;</span> Agent Pipeline</span>
+          <span class="badge badge-active">Active</span>
+        </div>
+        <div class="app-desc">Submit bugs, features, and tasks into the AI dispatch pipeline for autonomous processing.</div>
+        <div class="app-meta">
+          <span class="brand-tag agents">grotap-agents</span>
+          <span class="badge badge-mobile">Mobile</span>
+          <span class="badge badge-free">Free</span>
+        </div>
+      </div>
+
+      <div class="app-card">
+        <div class="app-card-header">
+          <span class="app-name"><span class="app-icon">&#127806;</span> Farm Dashboard</span>
+          <span class="badge badge-active">Active</span>
+        </div>
+        <div class="app-desc">Monitor agent farm health, uptime, and resource utilization across the infrastructure.</div>
+        <div class="app-meta">
+          <span class="brand-tag agents">grotap-agents</span>
+          <span class="badge badge-free">Free</span>
+        </div>
+      </div>
+
+      <div class="app-card">
+        <div class="app-card-header">
+          <span class="app-name"><span class="app-icon">&#128421;</span> Servers</span>
+          <span class="badge badge-active">Active</span>
+        </div>
+        <div class="app-desc">Manage agent farm infrastructure &mdash; provision, monitor, and maintain compute resources.</div>
+        <div class="app-meta">
+          <span class="brand-tag agents">grotap-agents</span>
+          <span class="badge badge-free">Free</span>
+        </div>
+      </div>
+
+      <div class="app-card">
+        <div class="app-card-header">
+          <span class="app-name"><span class="app-icon">&#9989;</span> Approvals</span>
+          <span class="badge badge-active">Active</span>
+        </div>
+        <div class="app-desc">Review and approve human-in-the-loop requests generated by agent workflows.</div>
+        <div class="app-meta">
+          <span class="brand-tag">grotap-apps</span>
+          <span class="badge badge-mobile">Mobile</span>
+          <span class="badge badge-free">Free</span>
+        </div>
+      </div>
+
+      <div class="app-card">
+        <div class="app-card-header">
+          <span class="app-name"><span class="app-icon">&#128680;</span> Human Intervention</span>
+          <span class="badge badge-beta">Beta</span>
+        </div>
+        <div class="app-desc">Track agent-blocked tasks that need human action. Sends push notifications for immediate response.</div>
+        <div class="app-meta">
+          <span class="badge badge-mobile">Mobile</span>
+          <span class="badge badge-free">Free</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="relationship-box">
+      <h4>Operational Flow</h4>
+      <div class="rel-flow">
+        <span class="rel-node">Agent Pipeline</span>
+        <span class="rel-arrow">&rarr;</span>
+        <span class="rel-node">Dispatch System</span>
+        <span class="rel-arrow">&rarr;</span>
+        <span class="rel-node">Servers / Farm Dashboard</span>
+        <span class="rel-arrow">&rarr;</span>
+        <span class="rel-node">AI Agents</span>
+        <span class="rel-arrow">&rarr;</span>
+        <span class="rel-node">Human Intervention / Approvals</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 2: PLATFORM CORE -->
+  <!-- ============================================================ -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-icon">&#128736;</span>
+      <h2>Platform Core</h2>
+    </div>
+    <div class="section-desc">
+      Foundation applications that every tenant gets access to. These handle dashboards, billing, analytics, compliance, and configuration.
+    </div>
+
+    <div class="app-grid">
+      <div class="app-card">
+        <div class="app-card-header">
+          <span class="app-name"><span class="app-icon">&#128202;</span> Dashboard</span>
+          <span class="badge badge-active">Active</span>
+        </div>
+        <div class="app-desc">Main tenant dashboard with KPIs, activity feed, and quick actions.</div>
+        <div class="app-meta">
+          <span class="badge badge-mobile">Mobile</span>
+          <span class="badge badge-free">Free</span>
+        </div>
+      </div>
+
+      <div class="app-card">
+        <div class="app-card-header">
+          <span class="app-name"><span class="app-icon">&#128179;</span> Billing</span>
+          <span class="badge badge-active">Active</span>
+        </div>
+        <div class="app-desc">Manage subscriptions, usage metering, and invoices.</div>
+        <div class="app-meta">
+          <span class="badge badge-free">Free</span>
+        </div>
+      </div>
+
+      <div class="app-card">
+        <div class="app-card-header">
+          <span class="app-name"><span class="app-icon">&#128200;</span> Analytics</span>
+          <span class="badge badge-active">Active</span>
+        </div>
+        <div class="app-desc">Data analytics dashboards and visualizations across your organization.</div>
+        <div class="app-meta">
+          <span class="badge badge-free">Free</span>
+        </div>
+      </div>
+
+      <div class="app-card">
+        <div class="app-card-header">
+          <span class="app-name"><span class="app-icon">&#128203;</span> Audit Log</span>
+          <span class="badge badge-active">Active</span>
+        </div>
+        <div class="app-desc">Full audit trail of all organizational actions for compliance and transparency.</div>
+        <div class="app-meta">
+          <span class="badge badge-free">Free</span>
+        </div>
+      </div>
+
+      <div class="app-card">
+        <div class="app-card-header">
+          <span class="app-name"><span class="app-icon">&#128209;</span> Reports</span>
+          <span class="badge badge-active">Active</span>
+        </div>
+        <div class="app-desc">Generate and export business reports on demand.</div>
+        <div class="app-meta">
+          <span class="badge badge-free">Free</span>
+        </div>
+      </div>
+
+      <div class="app-card">
+        <div class="app-card-header">
+          <span class="app-name"><span class="app-icon">&#9881;</span> Settings</span>
+          <span class="badge badge-active">Active</span>
+        </div>
+        <div class="app-desc">Tenant configuration, security settings, and API key management.</div>
+        <div class="app-meta">
+          <span class="badge badge-free">Free</span>
+        </div>
+      </div>
+
+      <div class="app-card">
+        <div class="app-card-header">
+          <span class="app-name"><span class="app-icon">&#128276;</span> Notifications</span>
+          <span class="badge badge-active">Active</span>
+        </div>
+        <div class="app-desc">Notification center with push notification support across devices.</div>
+        <div class="app-meta">
+          <span class="badge badge-mobile">Mobile</span>
+          <span class="badge badge-free">Free</span>
+        </div>
+      </div>
+
+      <div class="app-card">
+        <div class="app-card-header">
+          <span class="app-name"><span class="app-icon">&#128161;</span> App Ideas</span>
+          <span class="badge badge-active">Active</span>
+        </div>
+        <div class="app-desc">Community app suggestions &mdash; submit, vote, and track ideas from the community.</div>
+        <div class="app-meta">
+          <span class="badge badge-free">Free</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 3: KNOWLEDGE & DOCUMENTS -->
+  <!-- ============================================================ -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-icon">&#128218;</span>
+      <h2>Knowledge &amp; Documents</h2>
+    </div>
+    <div class="section-desc">
+      Document ingestion and knowledge management that powers contextual AI understanding across the platform.
+    </div>
+
+    <div class="app-grid">
+      <div class="app-card">
+        <div class="app-card-header">
+          <span class="app-name"><span class="app-icon">&#128228;</span> Document Upload</span>
+          <span class="badge badge-active">Active</span>
+        </div>
+        <div class="app-desc">Upload documents to your organization's knowledge base for AI-powered reasoning and retrieval.</div>
+        <div class="app-meta">
+          <span class="badge badge-free">Free</span>
+        </div>
+      </div>
+
+      <div class="app-card">
+        <div class="app-card-header">
+          <span class="app-name"><span class="app-icon">&#128218;</span> Knowledge Manager</span>
+          <span class="badge badge-active">Active</span>
+        </div>
+        <div class="app-desc">Manage knowledge indexes and document context for AI-driven insights.</div>
+        <div class="app-meta">
+          <span class="brand-tag agents">grotap-agents</span>
+          <span class="badge badge-free">Free</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="relationship-box">
+      <h4>Knowledge Pipeline</h4>
+      <div class="rel-flow">
+        <span class="rel-node">Document Upload</span>
+        <span class="rel-arrow">&rarr;</span>
+        <span class="rel-node">Ingestion</span>
+        <span class="rel-arrow">&rarr;</span>
+        <span class="rel-node">Knowledge Manager</span>
+        <span class="rel-arrow">&rarr;</span>
+        <span class="rel-node">AI Agents</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 4: SUPPORT -->
+  <!-- ============================================================ -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-icon">&#127911;</span>
+      <h2>Support &amp; Assistance</h2>
+    </div>
+    <div class="section-desc">
+      Live support tools including screen recording, co-browsing, and session replay for diagnosing issues.
+    </div>
+
+    <div class="app-grid">
+      <div class="app-card">
+        <div class="app-card-header">
+          <span class="app-name"><span class="app-icon">&#127909;</span> Cobrowse Console</span>
+          <span class="badge badge-active">Active</span>
+        </div>
+        <div class="app-desc">Screen recording, session replay, and remote co-browsing for live support.</div>
+        <div class="app-meta">
+          <span class="badge badge-free">Free</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 5: OPERATIONS & IOT -->
+  <!-- ============================================================ -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-icon">&#128225;</span>
+      <h2>Operations &amp; IoT</h2>
+    </div>
+    <div class="section-desc">
+      Operational tools for physical-world integration &mdash; RFID scanning, demand forecasting, and field data collection.
+    </div>
+
+    <div class="app-grid">
+      <div class="app-card">
+        <div class="app-card-header">
+          <span class="app-name"><span class="app-icon">&#128225;</span> RFID Pipe</span>
+          <span class="badge badge-beta">Beta</span>
+        </div>
+        <div class="app-desc">RFID tag scanning, batch sync, and scan templates &mdash; built mobile-first for field use.</div>
+        <div class="app-meta">
+          <span class="badge badge-mobile">Mobile</span>
+          <span class="badge badge-free">Free</span>
+        </div>
+      </div>
+
+      <div class="app-card">
+        <div class="app-card-header">
+          <span class="app-name"><span class="app-icon">&#128201;</span> Forecast Tool</span>
+          <span class="badge badge-beta">Beta</span>
+        </div>
+        <div class="app-desc">SKU and sub-SKU demand forecasting with weekly, monthly, and annual granularity.</div>
+        <div class="app-meta">
+          <span class="badge badge-paid">Paid</span>
+          <span class="badge badge-coming">Coming Soon</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 6: COMING SOON -->
+  <!-- ============================================================ -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-icon">&#128679;</span>
+      <h2>In Development</h2>
+    </div>
+    <div class="section-desc">
+      Applications currently in active development and testing before general availability.
+    </div>
+
+    <div class="app-grid">
+      <div class="app-card">
+        <div class="app-card-header">
+          <span class="app-name"><span class="app-icon">&#127752;</span> Rainbow Weather</span>
+          <span class="badge badge-coming">In Development</span>
+        </div>
+        <div class="app-desc">Weather data harvesting, rules engine, and operational weather intelligence with a full API backend.</div>
+        <div class="app-meta">
+          <span class="badge badge-free">Free</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 7: PLATFORM HIGHLIGHTS -->
+  <!-- ============================================================ -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-icon">&#127959;</span>
+      <h2>Platform Highlights</h2>
+    </div>
+
+    <div class="prose">
+      <h3>Technology</h3>
+      <ul>
+        <li><strong>Frontend:</strong> React + Vite + TypeScript</li>
+        <li><strong>Backend:</strong> FastAPI (Python)</li>
+        <li><strong>Mobile:</strong> Expo React Native (7 apps with mobile support)</li>
+        <li><strong>Database:</strong> Neon Serverless Postgres with database-per-tenant isolation</li>
+        <li><strong>AI Agents:</strong> TypeScript + LangGraph for autonomous task execution</li>
+      </ul>
+    </div>
+
+    <div class="prose">
+      <h3>Multi-Tenant Architecture</h3>
+      <p>Every tenant gets their own fully isolated database. The platform manages a control plane for cross-tenant coordination while ensuring complete data separation. Apps follow a managed lifecycle from review through to production.</p>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 8: MULTI-BRAND STRATEGY -->
+  <!-- ============================================================ -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-icon">&#127991;</span>
+      <h2>Two Brands, One Platform</h2>
+    </div>
+
+    <div class="relationship-box">
+      <h4 style="font-size: 1.1rem;">&#127760; Grotap Apps &mdash; apps.grotap.com</h4>
+      <div style="color: var(--muted); font-size: 0.9rem; margin-top: 0.5rem;">
+        <p>The <strong>primary tenant-facing brand</strong>. Hosts all platform core apps (Dashboard, Billing, Analytics, Settings), operational tools, support tools, and more. This is the main experience for customers.</p>
+        <p style="margin-top: 0.5rem;"><strong>18 apps</strong> available to tenants.</p>
+      </div>
+    </div>
+
+    <div class="relationship-box">
+      <h4 style="font-size: 1.1rem;">&#129302; Grotap Agents &mdash; agents.grotap.ai</h4>
+      <div style="color: var(--muted); font-size: 0.9rem; margin-top: 0.5rem;">
+        <p>The <strong>AI operations brand</strong>. Purpose-built for managing the autonomous agent fleet. Hosts Agent Pipeline, AI Agents, Farm Dashboard, Servers, and cross-brand administration tools.</p>
+        <p style="margin-top: 0.5rem;"><strong>6 apps</strong> focused on AI agent infrastructure.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <div style="text-align: center; padding: 2rem 0; border-top: 1px solid var(--border); color: var(--dim); font-size: 0.8rem;">
+    Grotap Platform Overview &bull; Public Report &bull; Published March 11, 2026 &bull; 22 Apps &bull; 2 Brands
+  </div>
+
+</div>
+</body>
+</html>
